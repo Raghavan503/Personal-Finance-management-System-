@@ -1,0 +1,78 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class PersonalFinanceManagement extends Frame {
+    // Declare components
+    Label incomeLabel, expenseLabel, balanceLabel;
+    TextField incomeField, expenseField, balanceField;
+    Button calculateButton, resetButton;
+    
+    // Constructor to set up the GUI
+    public PersonalFinanceManagement() {
+        // Set up frame
+        setTitle("Personal Finance Management");
+        setSize(400, 300);
+        setLayout(new FlowLayout());
+        
+        // Initialize components
+        incomeLabel = new Label("Enter Income: ");
+        expenseLabel = new Label("Enter Expense: ");
+        balanceLabel = new Label("Remaining Balance: ");
+        
+        incomeField = new TextField(20);
+        expenseField = new TextField(20);
+        balanceField = new TextField(20);
+        balanceField.setEditable(false); // Don't allow editing of the balance field
+        
+        calculateButton = new Button("Calculate Balance");
+        resetButton = new Button("Reset");
+
+        // Add components to the frame
+        add(incomeLabel);
+        add(incomeField);
+        add(expenseLabel);
+        add(expenseField);
+        add(balanceLabel);
+        add(balanceField);
+        add(calculateButton);
+        add(resetButton);
+
+        // Event handling for calculate button
+        calculateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double income = Double.parseDouble(incomeField.getText());
+                    double expense = Double.parseDouble(expenseField.getText());
+                    double balance = income - expense;
+                    balanceField.setText(String.format("%.2f", balance));
+                } catch (NumberFormatException ex) {
+                    balanceField.setText("Invalid Input");
+                }
+            }
+        });
+
+        // Event handling for reset button
+        resetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                incomeField.setText("");
+                expenseField.setText("");
+                balanceField.setText("");
+            }
+        });
+
+        // Window close event
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                System.exit(0);
+            }
+        });
+
+        // Make the window visible
+        setVisible(true);
+    }
+
+    // Main method to run the application
+    public static void main(String[] args) {
+        new PersonalFinanceManagement();
+    }
+}
